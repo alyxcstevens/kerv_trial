@@ -28,6 +28,16 @@ explore: dwh_geo_summary {
     sql_on: ${dwh_advertisers.id} = ${dwh_geo_summary.advertiserid} ;;
     relationship: many_to_one
   }
+  join: dwh_campaigns {
+    type: left_outer
+    sql_on: ${dwh_campaigns.id} = ${dwh_geo_summary.campaignid} ;;
+    relationship: many_to_one
+  }
+  join: dwh_creatives {
+    type: left_outer
+    sql_on: ${dwh_creatives.id} = ${dwh_creatives.id} ;;
+    relationship: many_to_one
+  }
 }
 
 explore: dwh_lineitems {}
