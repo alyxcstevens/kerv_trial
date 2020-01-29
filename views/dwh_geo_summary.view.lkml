@@ -487,6 +487,11 @@ filters: {
     value_format_name: percent_2
   }
 
+  measure: object_link_rate {
+    type: number
+    sql: 1.0*${object_link} / NULLIF(${impression},0) ;;
+  }
+
   measure: pcta_click_rate {
     type: number
     sql: 1.0 * ${primary_cta} / NULLIF(${impression},0)  ;;
