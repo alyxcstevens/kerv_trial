@@ -28,6 +28,7 @@ explore: dwh_geo_summary {
     sql_on: ${dwh_advertisers.id} = ${dwh_geo_summary.advertiserid} ;;
     relationship: many_to_one
   }
+
 }
 
 explore: dwh_lineitems {}

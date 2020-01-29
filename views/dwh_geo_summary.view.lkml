@@ -96,6 +96,17 @@ view: dwh_geo_summary {
     sql: ${TABLE}.geo_region ;;
   }
 
+  dimension: state {
+    type:  string
+    sql: RIGHT(${geo_region}, 2) ;;
+  }
+
+  dimension: map_region {
+    type: string
+    map_layer_name: us_states
+    sql: ${state} ;;
+  }
+
   dimension: hour {
     type: number
     sql: ${TABLE}.hour ;;
@@ -170,4 +181,205 @@ view: dwh_geo_summary {
     type: count
     drill_fields: [line_item_name]
   }
-}
+
+  ## New Content Added Co-Dev #2
+
+  measure: object_link {
+    description: "When a user clicks on a hotspot"
+    type: sum
+    sql: ${ct} ;;
+    filters: {
+      field: eventtype
+      value: "2"
+    }
+  }
+  measure: frame_select {
+    description: "When a user launches a scene from the carousel"
+    type: sum
+    sql: ${ct} ;;
+    filters: {
+      field: eventtype
+      value: "3"
+    }
+  }
+  measure: scene_save {
+    description: "When a user clicks on the video and saves a scene"
+    type: sum
+    sql: ${ct} ;;
+    filters: {
+      field: eventtype
+      value: "4"
+    }
+  }
+  measure: impression {
+    description: "When the ad is loaded and starts playback"
+    type: sum
+    sql: ${ct} ;;
+    filters: {
+      field: eventtype
+      value: "5"
+    }
+  }
+  measure: frame_select_pre_select {
+    description: "When a user launches a scene from the carousel that was previously selected"
+    type: sum
+    sql: ${ct} ;;
+    filters: {
+      field: eventtype
+      value: "8"
+    }
+  }
+  measure: quartile_25 {
+    description: "When the ad playback reaches 25% completion"
+    type: sum
+    sql: ${ct} ;;
+    filters: {
+      field: eventtype
+      value: "10"
+    }
+  }
+  measure: quartile_50 {
+    description: "When the ad playback reaches 50% completion"
+    type: sum
+    sql: ${ct} ;;
+    filters: {
+      field: eventtype
+      value: "11"
+    }
+  }
+  measure: quartile_75 {
+    description: "When the ad playback reaches 75% completion"
+    type: sum
+    sql: ${ct} ;;
+    filters: {
+      field: eventtype
+      value: "12"
+    }
+  }
+  measure: quartile_100 {
+    description: "When the ad playback reaches 100% completion"
+    type: sum
+    sql: ${ct} ;;
+    filters: {
+      field: eventtype
+      value: "13"
+    }
+  }
+  measure: primary_cta {
+    description: "The user clicks on the PCTA button"
+    type: sum
+    sql: ${ct} ;;
+    filters: {
+      field: eventtype
+      value: "16"
+    }
+  }
+  measure: brand_logo_click {
+    description: "The user clicks on the Brand Logo"
+    type: sum
+    sql: ${ct} ;;
+    filters: {
+      field: eventtype
+      value: "17"
+    }
+  }
+  measure: kerv_logo_click {
+    description: "The user clicks on the “Powered by KERV” watermark"
+    type: sum
+    sql: ${ct} ;;
+    filters: {
+      field: eventtype
+      value: "18"
+    }
+  }
+  measure: auto_populate_scene {
+    description: "When a scene is added to the carousel automatically"
+    type: sum
+    sql: ${ct} ;;
+    filters: {
+      field: eventtype
+      value: "19"
+    }
+  }
+  measure: carousel_scroll {
+    description: "The user scrolls the scenes in the carousel"
+    type: sum
+    sql: ${ct} ;;
+    filters: {
+      field: eventtype
+      value: "21"
+    }
+  }
+  measure: object_highlight {
+    description: "When the user hovers over a hotspot"
+    type: sum
+    sql: ${ct} ;;
+    filters: {
+      field: eventtype
+      value: "23"
+    }
+  }
+
+  measure: ba {
+    type: number
+    sql: ${carousel_open} + ${object_highlight} ;;
+  }
+
+  measure: scene_close {
+    description: "When a scene is closed"
+    type: sum
+    sql: ${ct} ;;
+    filters: {
+      field: eventtype
+      value: "25"
+    }
+  }
+  measure: carousel_open {
+    description: "When the user clicks the tab to open the carousel"
+    type: sum
+    sql: ${ct} ;;
+    filters: {
+      field: eventtype
+      value: "27"
+    }
+  }
+  measure: carousel_close {
+    description: "When the user clicks the tab to close the carousel"
+    type: sum
+    sql: ${ct} ;;
+    filters: {
+      field: eventtype
+      value: "28"
+    }
+  }
+  measure: swipe {
+    description: "When user swipes across the hotspot (mobile)"
+    type: sum
+    sql: ${ct} ;;
+    filters: {
+    field: eventtype
+    value: "31"
+    }
+    }
+    measure: share {
+    description: "When the user clicks on the Share button (mobile)"
+    type: sum
+    sql: ${ct} ;;
+    filters: {
+      field: eventtype
+      value: "32"
+    }
+  }
+  measure: object_highlight_exit {
+    description: "When the user clicks out of the object"
+    type: sum
+    sql: ${ct} ;;
+    filters: {
+      field: eventtype
+      value: "33"
+    }
+  }
+
+
+
+  }
