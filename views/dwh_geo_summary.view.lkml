@@ -54,7 +54,13 @@ view: dwh_geo_summary {
       value: "5"
     }
   }
-
+  measure: total_click {
+    type: sum
+    sql:
+      CASE WHEN eventtype = "2" OR eventtype = "16" OR eventtype = "17"
+     THEN ${ct}
+    END;;
+    }
   dimension: day {
     type: string
     sql: ${TABLE}.day ;;

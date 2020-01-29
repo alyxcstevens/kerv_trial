@@ -38,6 +38,11 @@ explore: dwh_geo_summary {
     sql_on: ${dwh_creatives.id} = ${dwh_creatives.id} ;;
     relationship: many_to_one
   }
+  join: dwh_distributions {
+    type: left_outer
+    sql_on: ${dwh_distributions.id}= ${dwh_geo_summary.distributionid} ;;
+    relationship: many_to_one
+  }
 }
 
 explore: dwh_lineitems {}
