@@ -46,15 +46,6 @@ view: dwh_geo_summary {
     sql: ${ct} ;;
   }
 
-  measure: total_impression {
-    type: sum
-    sql: ${ct} ;;
-    filters: {
-      field: eventtype
-      value: "5"
-    }
-  }
-
   dimension: day {
     type: string
     sql: ${TABLE}.day ;;
@@ -320,11 +311,6 @@ view: dwh_geo_summary {
     }
   }
 
-  measure: ba {
-    type: number
-    sql: ${carousel_open} + ${object_highlight} ;;
-  }
-
   measure: scene_close {
     description: "When a scene is closed"
     type: sum
@@ -379,6 +365,61 @@ view: dwh_geo_summary {
       value: "33"
     }
   }
+
+
+  measure: interactions {
+    type: number
+    sql: ${frame_select} + ${object_link} + ${object_highlight} + ${primary_cta}
+          + ${brand_logo_click} + ${share};;
+  }
+
+  measure: interaction_rate {
+    type: number
+    sql: ${interactions} / ${impression} ;;
+    value_format_name: percent_2
+  }
+
+measure: activities {
+  type: number
+  sql: ${frame_select} + ${scene_save} + ${object_highlight} +${object_link} + ${primary_cta}
+          + ${brand_logo_click} + ${carousel_open} + ${carousel_close} + ${carousel_scroll}
+          + ${share} + ${swipe};;
+}
+
+measure: activity_rate {
+  type: number
+  sql: ${activities} / ${impression} ;;
+  value_format_name: percent_2
+}
+
+measure: scene_save_rate {
+  type: number
+  sql: (${scene_save} / ${impression}) * 100 ;;
+}
+
+  measure: frame_select_rate {
+    type: number
+    sql: (${frame_select} / ${impression}) * 100 ;;
+  }
+
+  measure: object_highlight_rate {
+    type: number
+    sql: (${object_highlight} / ${frame_select}) * 100 ;;
+  }
+
+  measure: pcta_click_rate {
+    type: number
+    sql: (${primary_cta} / ${impression}) * 100 ;;
+  }
+  measure: completion_rate {
+    type: number
+    sql: (${quartile_100} / ${impression}) * 100 ;;
+  }
+  measure: oh_to_ol_ratio {
+    type: number
+    sql: (${object_link} / ${object_highlight}) * 100 ;;
+  }
+
 
 
 
