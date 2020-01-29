@@ -123,6 +123,11 @@ view: dwh_geo_summary {
     sql: ${TABLE}.mediatype ;;
   }
 
+  dimension: media_type_name {
+    type: number
+    sql: CASE WHEN ${TABLE}.mediatype = 1 THEN 'Video' ELSE 'Banner' END ;;
+  }
+
   dimension: platform_device_make {
     type: string
     sql: ${TABLE}.platform_device_make ;;
@@ -145,7 +150,8 @@ view: dwh_geo_summary {
 
   dimension: usermobile {
     type: number
-    sql: ${TABLE}.usermobile ;;
+    sql: CASE WHEN ${TABLE}.usermobile = 1 then 'Mobile'
+          ELSE 'Desktop' END;;
   }
 
   dimension: vendor_fee_micros_usd {
@@ -366,6 +372,7 @@ view: dwh_geo_summary {
     }
   }
 
+## Need to select the correct interactions and activities below
 
   measure: interactions {
     type: number
@@ -373,10 +380,30 @@ view: dwh_geo_summary {
           + ${brand_logo_click} + ${share};;
   }
 
-  measure: interaction_rate {
-    type: number
-    sql: ${interactions} / ${impression} ;;
-    value_format_name: percent_2
+  measure: banner_interactions {
+    type: sum
+    sql: ${ct} ;;
+    filters: {
+      field: eventtype
+      value: "2,23,24"
+    }
+    filters: {
+      field: mediatype
+      value: "2"
+    }
+  }
+
+  measure: video_interactions {
+    type: sum
+    sql: ${ct} ;;
+    filters: {
+      field: eventtype
+      value: "2,3,4,8,16,17,23,32"
+    }
+    filters: {
+      field: mediatype
+      value: "1"
+    }
   }
 
 measure: activities {
@@ -386,41 +413,132 @@ measure: activities {
           + ${share} + ${swipe};;
 }
 
-measure: activity_rate {
-  type: number
-  sql: ${activities} / ${impression} ;;
-  value_format_name: percent_2
+measure: video_activites {
+  type: sum
+  sql: ${ct} ;;
+  filters: {
+    field: eventtype
+    value: "2,3,4,8,16,17,21,23,27,28,31"
+  }
+filters: {
+  field: mediatype
+  value: "1"
+}
 }
 
-measure: scene_save_rate {
-  type: number
-  sql: (${scene_save} / ${impression}) * 100 ;;
-}
+  measure: banner_clicks {
+    type: sum
+    sql: ${ct} ;;
+    filters: {
+      field: eventtype
+      value: "2,24"
+    }
+    filters: {
+      field: mediatype
+      value: "2"
+    }
+  }
+
+  measure: video_clicks {
+    type: sum
+    sql: ${ct} ;;
+    filters: {
+      field: eventtype
+      value: "2,16,17"
+    }
+    filters: {
+      field: mediatype
+      value: "1"
+    }
+  }
+
+  measure: interaction_rate {
+    type: number
+    sql: 1.0 * ${interactions} / NULLIF(${impression},0)  ;;
+    value_format_name: percent_2
+  }
+
+  measure: activity_rate {
+    type: number
+    sql: 1.0 * ${activities} / NULLIF(${impression},0) ;;
+    value_format_name: percent_2
+  }
+
+  measure: scene_save_rate {
+    type: number
+    sql: 1.0 * ${scene_save} / NULLIF(${impression},0)  ;;
+    value_format_name: percent_2
+  }
 
   measure: frame_select_rate {
     type: number
-    sql: (${frame_select} / ${impression}) * 100 ;;
+    sql: 1.0 * ${frame_select} / NULLIF(${impression},0) ;;
+    value_format_name: percent_2
   }
 
   measure: object_highlight_rate {
     type: number
-    sql: (${object_highlight} / ${frame_select}) * 100 ;;
+    sql: 1.0 * ${object_highlight} / NULLIF(${frame_select},0) ;;
+    value_format_name: percent_2
   }
 
   measure: pcta_click_rate {
     type: number
-    sql: (${primary_cta} / ${impression}) * 100 ;;
+    sql: 1.0 * ${primary_cta} / NULLIF(${impression},0)  ;;
+    value_format_name: percent_2
   }
   measure: completion_rate {
     type: number
-    sql: (${quartile_100} / ${impression}) * 100 ;;
+    sql: 1.0 * ${quartile_100} / NULLIF(${impression},0)  ;;
+    value_format_name: percent_2
   }
   measure: oh_to_ol_ratio {
     type: number
-    sql: (${object_link} / ${object_highlight}) * 100 ;;
+    sql: 1.0 * ${object_link} / NULLIF(${object_highlight},0) ;;
+    value_format_name: percent_2
+  }
+
+  measure: banner_interactions_rate {
+    type: number
+    sql: 1.0 * ${banner_interactions} / NULLIF(${impression},0)  ;;
+    value_format_name: percent_2
+  }
+
+  measure: video_interactions_rate {
+    type: number
+    sql: 1.0 * ${video_interactions} / NULLIF(${impression},0)  ;;
+    value_format_name: percent_2
+  }
+
+  measure: video_activities_rate {
+    type: number
+    sql: 1.0 * ${video_activites} / NULLIF(${impression},0)  ;;
+    value_format_name: percent_2
+  }
+
+  measure: banner_clicks_rate {
+    type: number
+    sql: 1.0 * ${banner_clicks} / NULLIF(${impression},0)  ;;
+    value_format_name: percent_2
+  }
+
+  measure: video_clicks_rate {
+    type: number
+    sql: 1.0 * ${video_clicks} / NULLIF(${impression},0) ;;
+    value_format_name: percent_2
+  }
+
+
+
   }
 
 
 
 
-  }
+
+
+
+
+
+
+
