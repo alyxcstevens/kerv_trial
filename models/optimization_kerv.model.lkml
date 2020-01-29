@@ -10,7 +10,6 @@ datagroup: optimization_kerv_default_datagroup {
 
 persist_with: optimization_kerv_default_datagroup
 
-
 explore: dwh_advertisers {}
 
 explore: dwh_campaigns {}
