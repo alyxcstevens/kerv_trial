@@ -150,8 +150,13 @@ view: dwh_geo_summary {
 
   dimension: usermobile {
     type: number
-    sql: CASE WHEN ${TABLE}.usermobile = 1 then 'Mobile'
-          ELSE 'Desktop' END;;
+    sql: ${TABLE}.usermobile;;
+  }
+
+  dimension: user_mobile_name {
+    type: string
+    sql: CASE WHEN ${usermobile} = 1 then 'Mobile'
+    ELSE 'Desktop' END;;
   }
 
   dimension: vendor_fee_micros_usd {
@@ -531,14 +536,3 @@ filters: {
 
 
   }
-
-
-
-
-
-
-
-
-
-
-
