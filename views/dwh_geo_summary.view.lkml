@@ -1,4 +1,5 @@
 view: dwh_geo_summary {
+  label: "Geo Summary"
   sql_table_name: public.dwh_geo_summary ;;
 
   dimension: advertiserid {
@@ -239,6 +240,7 @@ view: dwh_geo_summary {
       field: eventtype
       value: "10"
     }
+    group_label: "Quartiles"
   }
   measure: quartile_50 {
     description: "When the ad playback reaches 50% completion"
@@ -248,6 +250,7 @@ view: dwh_geo_summary {
       field: eventtype
       value: "11"
     }
+    group_label: "Quartiles"
   }
   measure: quartile_75 {
     description: "When the ad playback reaches 75% completion"
@@ -257,6 +260,7 @@ view: dwh_geo_summary {
       field: eventtype
       value: "12"
     }
+    group_label: "Quartiles"
   }
   measure: quartile_100 {
     description: "When the ad playback reaches 100% completion"
@@ -266,6 +270,7 @@ view: dwh_geo_summary {
       field: eventtype
       value: "13"
     }
+    group_label: "Quartiles"
   }
   measure: primary_cta {
     description: "The user clicks on the PCTA button"
@@ -383,6 +388,7 @@ view: dwh_geo_summary {
     type: number
     sql: ${frame_select} + ${object_link} + ${object_highlight} + ${primary_cta}
           + ${brand_logo_click} + ${share};;
+    group_label: "Interactions"
   }
 
   measure: banner_interactions {
@@ -396,6 +402,7 @@ view: dwh_geo_summary {
       field: mediatype
       value: "2"
     }
+    group_label: "Interactions"
   }
 
   measure: video_interactions {
@@ -409,6 +416,7 @@ view: dwh_geo_summary {
       field: mediatype
       value: "1"
     }
+    group_label: "Interactions"
   }
 
 measure: activities {
@@ -416,6 +424,7 @@ measure: activities {
   sql: ${frame_select} + ${scene_save} + ${object_highlight} +${object_link} + ${primary_cta}
           + ${brand_logo_click} + ${carousel_open} + ${carousel_close} + ${carousel_scroll}
           + ${share} + ${swipe};;
+  group_label: "Activities"
 }
 
 measure: video_activites {
@@ -429,6 +438,7 @@ filters: {
   field: mediatype
   value: "1"
 }
+  group_label: "Activities"
 }
 
   measure: banner_clicks {
@@ -442,6 +452,7 @@ filters: {
       field: mediatype
       value: "2"
     }
+    group_label: "Clicks"
   }
 
   measure: video_clicks {
@@ -455,55 +466,67 @@ filters: {
       field: mediatype
       value: "1"
     }
+    group_label: "Clicks"
   }
+
+
+## RATE CALCULATIONS =================================
 
   measure: interaction_rate {
     type: number
     sql: 1.0 * ${interactions} / NULLIF(${impression},0)  ;;
     value_format_name: percent_2
+    group_label: "Rates"
   }
 
   measure: activity_rate {
     type: number
     sql: 1.0 * ${activities} / NULLIF(${impression},0) ;;
     value_format_name: percent_2
+    group_label: "Rates"
   }
 
   measure: scene_save_rate {
     type: number
     sql: 1.0 * ${scene_save} / NULLIF(${impression},0)  ;;
     value_format_name: percent_2
+    group_label: "Rates"
   }
 
   measure: frame_select_rate {
     type: number
     sql: 1.0 * ${frame_select} / NULLIF(${impression},0) ;;
     value_format_name: percent_2
+    group_label: "Rates"
   }
 
   measure: object_highlight_rate {
     type: number
     sql: 1.0 * ${object_highlight} / NULLIF(${frame_select},0) ;;
     value_format_name: percent_2
+    group_label: "Rates"
   }
 
   measure: object_link_rate {
     type: number
     sql: 1.0*${object_link} / NULLIF(${impression},0) ;;
     value_format_name: percent_2
+    group_label: "Rates"
   }
 
   measure: pcta_click_rate {
     type: number
     sql: 1.0 * ${primary_cta} / NULLIF(${impression},0)  ;;
     value_format_name: percent_2
+    group_label: "Rates"
   }
   measure: completion_rate {
     type: number
     sql: 1.0 * ${quartile_100} / NULLIF(${impression},0)  ;;
     value_format_name: percent_2
+    group_label: "Rates"
   }
-  measure: oh_to_ol_ratio {
+  measure: OH_to_OL_ratio {
     type: number
     sql: 1.0 * ${object_link} / NULLIF(${object_highlight},0) ;;
     value_format_name: percent_2
@@ -513,30 +536,35 @@ filters: {
     type: number
     sql: 1.0 * ${banner_interactions} / NULLIF(${impression},0)  ;;
     value_format_name: percent_2
+    group_label: "Rates"
   }
 
   measure: video_interactions_rate {
     type: number
     sql: 1.0 * ${video_interactions} / NULLIF(${impression},0)  ;;
     value_format_name: percent_2
+    group_label: "Rates"
   }
 
   measure: video_activities_rate {
     type: number
     sql: 1.0 * ${video_activites} / NULLIF(${impression},0)  ;;
     value_format_name: percent_2
+    group_label: "Rates"
   }
 
   measure: banner_clicks_rate {
     type: number
     sql: 1.0 * ${banner_clicks} / NULLIF(${impression},0)  ;;
     value_format_name: percent_2
+    group_label: "Rates"
   }
 
   measure: video_clicks_rate {
     type: number
     sql: 1.0 * ${video_clicks} / NULLIF(${impression},0) ;;
     value_format_name: percent_2
+    group_label: "Rates"
   }
 
 

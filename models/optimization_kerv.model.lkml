@@ -23,6 +23,7 @@ explore: dwh_ds_summary {}
 explore: dwh_geo_summary {
   label: "Geo Summary"
   join: dwh_advertisers {
+    view_label: "Advertisers"
     type: left_outer
     sql_on: ${dwh_advertisers.id} = ${dwh_geo_summary.advertiserid} ;;
     relationship: many_to_one
