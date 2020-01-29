@@ -222,6 +222,7 @@ view: dwh_geo_summary {
       field: eventtype
       value: "5"
     }
+    drill_fields: [advertiserid, campaignid]
   }
   measure: frame_select_pre_select {
     description: "When a user launches a scene from the carousel that was previously selected"
