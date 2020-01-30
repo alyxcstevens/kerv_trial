@@ -3,22 +3,13 @@ connection: "kerv_rs"
 # include all the views
 include: "/views/**/*.view"
 
-datagroup: optimization_kerv_default_datagroup {
-  # sql_trigger: SELECT MAX(id) FROM etl_log;;
-  max_cache_age: "1 hour"
+datagroup: geo_summary {
+   sql_trigger: SELECT max(day || hour) FROM public.dwh_geo_summary LIMIT 10;;
+  #max_cache_age: "1 hour"
 }
 
-persist_with: optimization_kerv_default_datagroup
+persist_with: geo_summary
 
-explore: dwh_advertisers {}
-
-explore: dwh_campaigns {}
-
-explore: dwh_creatives {}
-
-explore: dwh_distributions {}
-
-explore: dwh_ds_summary {}
 
 explore: dwh_geo_summary {
   label: "Geo Summary"
@@ -30,13 +21,3 @@ explore: dwh_geo_summary {
   }
 
 }
-
-explore: dwh_lineitems {}
-
-explore: dwh_objects {}
-
-explore: dwh_scenes {}
-
-explore: dwh_ssp_summary {}
-
-explore: dwh_tags {}
