@@ -90,4 +90,7 @@ view: geo_daily_summary_pdt {
           value_format_name: percent_2
           group_label: "Rates"
         }
+
+  drill_fields: [event_date, campaignid, map_region, impression]
+
       }

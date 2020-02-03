@@ -568,6 +568,6 @@ filters: {
     group_label: "Rates"
   }
 
-
+drill_fields: [event_date, campaignid, targeted_segments, impression]
 
   }
