@@ -3,15 +3,9 @@ connection: "kerv_rs"
 # include all the views
 include: "/views/**/*.view"
 
-datagroup: geo_summary {
-   sql_trigger: SELECT max(day || hour) FROM public.dwh_geo_summary LIMIT 10;;
-  #max_cache_age: "1 hour"
-}
-
-persist_with: geo_summary
-
 
 explore: dwh_geo_summary {
+  persist_with: geo_summary
   label: "Geo Summary"
   join: dwh_advertisers {
     view_label: "Advertisers"
@@ -24,6 +18,7 @@ explore: dwh_geo_summary {
 
 #optimized pdt explore
 explore: geo_daily_summary_pdt {
+  persist_with: pdt_daily_refresh
   label: "Geo Daily Summary PDT"
   join: dwh_advertisers {
     view_label: "Advertisers"
@@ -32,4 +27,15 @@ explore: geo_daily_summary_pdt {
     relationship: many_to_one
   }
 
+}
+
+
+##### Caching Datagroups #####
+datagroup: geo_summary {
+  sql_trigger: SELECT max(day || hour) FROM public.dwh_geo_summary LIMIT 10;;
+  #max_cache_age: "1 hour"
+}
+
+datagroup: pdt_daily_refresh {
+  sql_trigger: select current_date ;;
 }

@@ -2,7 +2,7 @@ view: geo_daily_summary_pdt {
 
 
   derived_table: {
-    sql_trigger_value: select current_date ;;
+    datagroup_trigger: pdt_daily_refresh
 #       distribution_style: even
     distribution: "advertiserid"
     sortkeys: ["event_date"]
@@ -22,7 +22,7 @@ view: geo_daily_summary_pdt {
             column: video_interactions {}
             filters: {
               field: dwh_geo_summary.event_date
-              value: "3 months"
+              value: "6 months"
             }
           }
         }
