@@ -28,7 +28,7 @@ explore: geo_daily_summary_pdt {
   join: dwh_advertisers {
     view_label: "Advertisers"
     type: left_outer
-    sql_on: ${dwh_advertisers.id} = ${geo_daily_summary_pdt.advertiserid}.advertiserid} ;;
+    sql_on: ${dwh_advertisers.id} = ${geo_daily_summary_pdt.advertiserid} ;;
     relationship: many_to_one
   }
 
