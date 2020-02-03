@@ -21,3 +21,15 @@ explore: dwh_geo_summary {
   }
 
 }
+
+#optimized pdt explore
+explore: geo_daily_summary_pdt {
+  label: "Geo Daily Summary PDT"
+  join: dwh_advertisers {
+    view_label: "Advertisers"
+    type: left_outer
+    sql_on: ${dwh_advertisers.id} = ${geo_daily_summary_pdt.advertiserid}.advertiserid} ;;
+    relationship: many_to_one
+  }
+
+}
