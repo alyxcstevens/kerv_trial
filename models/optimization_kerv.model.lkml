@@ -13,6 +13,26 @@ explore: dwh_geo_summary {
     sql_on: ${dwh_advertisers.id} = ${dwh_geo_summary.advertiserid} ;;
     relationship: many_to_one
   }
+  join: dwh_campaigns {
+    view_label: "Campaigns"
+    type: left_outer
+    sql_on: ${dwh_campaigns.id} = ${dwh_geo_summary.campaignid} ;;
+    relationship: many_to_one
+  }
+
+  join: dwh_creatives {
+    view_label: "Creatives"
+    type: left_outer
+    sql_on: ${dwh_creatives.id} = ${dwh_geo_summary.creativeid} ;;
+    relationship: many_to_one
+  }
+
+  join: dwh_distributions {
+    view_label: "Distributions"
+    type: left_outer
+    sql_on: ${dwh_distributions.id} = ${dwh_geo_summary.distributionid} ;;
+    relationship: many_to_one
+  }
 
 }
 
