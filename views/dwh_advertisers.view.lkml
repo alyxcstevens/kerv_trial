@@ -1,30 +1,37 @@
 view: dwh_advertisers {
   sql_table_name: public.dwh_advertisers ;;
-  drill_fields: [id]
+
+  dimension: pk {
+    type: string
+    primary_key: yes
+    hidden: yes
+    sql: CONCAT(${id},${src}) ;;
+  }
 
   dimension: id {
-    primary_key: yes
+    hidden: yes
     type: string
     sql: ${TABLE}.id ;;
   }
 
   dimension: agency_id {
+    hidden: yes
     type: string
     sql: ${TABLE}.agency_id ;;
   }
 
-  dimension: name {
+  dimension: advertiser_name {
     type: string
     sql: ${TABLE}.name ;;
   }
 
   dimension: src {
+    hidden: yes
     type: string
     sql: ${TABLE}.src ;;
   }
 
-  measure: count {
+  measure: count_of_advertisers {
     type: count
-    drill_fields: [id, name]
   }
 }

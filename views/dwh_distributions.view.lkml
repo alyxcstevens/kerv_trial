@@ -1,9 +1,15 @@
 view: dwh_distributions {
   sql_table_name: public.dwh_distributions ;;
-  drill_fields: [id]
+
+  dimension: pk {
+    type: string
+    primary_key: yes
+    hidden: yes
+    sql: CONCAT(${id},${src}) ;;
+  }
 
   dimension: id {
-    primary_key: yes
+    hidden: yes
     type: string
     sql: ${TABLE}.id ;;
   }
@@ -14,12 +20,12 @@ view: dwh_distributions {
   }
 
   dimension: src {
+    hidden: yes
     type: string
     sql: ${TABLE}.src ;;
   }
 
-  measure: count {
+  measure: count_of_distributions {
     type: count
-    drill_fields: [id, name]
   }
 }

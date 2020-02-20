@@ -1,15 +1,29 @@
 view: dwh_lineitems {
   sql_table_name: public.dwh_lineitems ;;
-  drill_fields: [id]
+
+  dimension: pk {
+    type: string
+    primary_key: yes
+    hidden: yes
+    sql: CONCAT(${id},${src}) ;;
+  }
 
   dimension: id {
-    primary_key: yes
+    hidden: yes
     type: string
     sql: ${TABLE}.id ;;
   }
 
-  dimension: end_date {
-    type: string
+  dimension_group: end {
+    type: time
+    timeframes: [
+      raw,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
     sql: ${TABLE}.end_date ;;
   }
 
@@ -29,17 +43,25 @@ view: dwh_lineitems {
   }
 
   dimension: src {
+    hidden: yes
     type: string
     sql: ${TABLE}.src ;;
   }
 
-  dimension: start_date {
-    type: string
+  dimension_group: start {
+    type: time
+    timeframes: [
+      raw,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
     sql: ${TABLE}.start_date ;;
   }
 
-  measure: count {
+  measure: count_of_line_items {
     type: count
-    drill_fields: [id, name]
   }
 }

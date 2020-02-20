@@ -1,9 +1,9 @@
 view: dwh_tags {
   sql_table_name: public.dwh_tags ;;
-  drill_fields: [id]
 
   dimension: id {
     primary_key: yes
+    hidden: yes
     type: string
     sql: ${TABLE}.id ;;
   }
@@ -14,12 +14,12 @@ view: dwh_tags {
   }
 
   dimension: object_id {
+    hidden: yes
     type: string
     sql: ${TABLE}.object_id ;;
   }
 
-  measure: count {
+  measure: count_of_tags {
     type: count
-    drill_fields: [id, name]
   }
 }

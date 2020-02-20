@@ -1,9 +1,15 @@
 view: dwh_creatives {
   sql_table_name: public.dwh_creatives ;;
-  drill_fields: [id]
+
+  dimension: pk {
+    type: string
+    primary_key: yes
+    hidden: yes
+    sql: CONCAT(${id},${src}) ;;
+  }
 
   dimension: id {
-    primary_key: yes
+    hidden: yes
     type: string
     sql: ${TABLE}.id ;;
   }
@@ -14,12 +20,12 @@ view: dwh_creatives {
   }
 
   dimension: src {
+    hidden: yes
     type: string
     sql: ${TABLE}.src ;;
   }
 
-  measure: count {
+  measure: count_of_creatives {
     type: count
-    drill_fields: [id, name]
   }
 }

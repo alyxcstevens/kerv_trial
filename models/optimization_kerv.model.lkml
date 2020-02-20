@@ -5,6 +5,7 @@ include: "/views/**/*.view"
 
 
 explore: dwh_geo_summary {
+  hidden: yes
   persist_with: geo_summary
   label: "Geo Summary"
   join: dwh_advertisers {
@@ -39,9 +40,10 @@ explore: dwh_geo_summary {
 #optimized pdt explore
 explore: geo_daily_summary_pdt {
   persist_with: pdt_daily_refresh
-  label: "Geo Daily Summary PDT"
+  label: "GEO Summary"
+  view_label: "GEO Summary"
   join: dwh_advertisers {
-    view_label: "Advertisers"
+    view_label: "GEO Summary"
     type: left_outer
     sql_on: ${dwh_advertisers.id} = ${geo_daily_summary_pdt.advertiserid} ;;
     relationship: many_to_one

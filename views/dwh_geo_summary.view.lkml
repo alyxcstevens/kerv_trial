@@ -69,8 +69,99 @@ view: dwh_geo_summary {
   }
 
   dimension: eventtype {
+    hidden: yes
     type: string
     sql: ${TABLE}.eventtype ;;
+  }
+
+  dimension: event_type {
+    type: string
+    case: {
+      when: {
+        sql: ${eventtype} = 2 ;;
+        label: "Object Link"
+      }
+      when: {
+        sql: ${eventtype} IN (3,8) ;;
+        label: "Frame Select"
+      }
+      when: {
+        sql: ${eventtype} = 4 ;;
+        label: "Scene Save"
+      }
+      when: {
+        sql: ${eventtype} = 5 ;;
+        label: "Impression"
+      }
+      when: {
+        sql: ${eventtype} = 10 ;;
+        label: "Quartile 25%"
+      }
+      when: {
+        sql: ${eventtype} = 11 ;;
+        label: "Quartile 50%"
+      }
+      when: {
+        sql: ${eventtype} = 12 ;;
+        label: "Quartile 75%"
+      }
+      when: {
+        sql: ${eventtype} = 13 ;;
+        label: "Quartile 100%"
+      }
+      when: {
+        sql: ${eventtype} = 16 ;;
+        label: "Primary CTA"
+      }
+      when: {
+        sql: ${eventtype} = 17 ;;
+        label: "Brand Logo Click"
+      }
+      when: {
+        sql: ${eventtype} = 18 ;;
+        label: "Kerv Logo Click"
+      }
+      when: {
+        sql: ${eventtype} = 19 ;;
+        label: "Auto Populate Scene"
+      }
+      when: {
+        sql: ${eventtype} = 21 ;;
+        label: "Carousel Scroll"
+      }
+      when: {
+        sql: ${eventtype} = 23;;
+        label: "Object Highlight"
+      }
+      when: {
+        sql: ${eventtype} = 24 ;;
+        label: "Background Click"
+      }
+      when: {
+        sql: ${eventtype} = 25 ;;
+        label: "Scene Close"
+      }
+      when: {
+        sql: ${eventtype} = 27 ;;
+        label: "Carousel Open"
+      }
+      when: {
+        sql: ${eventtype} = 28 ;;
+        label: "Carousel Close"
+      }
+      when: {
+        sql: ${eventtype} = 31;;
+        label: "Swipe"
+      }
+      when: {
+        sql: ${eventtype} = 32 ;;
+        label: "Share"
+      }
+      when: {
+        sql: ${eventtype} = 33 ;;
+        label: "Object Highlight Exit"
+      }
+    }
   }
 
   dimension: frame {

@@ -5,12 +5,12 @@ view: geo_daily_summary_pdt {
     datagroup_trigger: pdt_daily_refresh
 #       distribution_style: even
     distribution: "advertiserid"
-    sortkeys: ["event_date"]
+    sortkeys: ["event_raw"]
     # If necessary, uncomment the line below to include explore_source.
 # include: "optimization_kerv.model.lkml"
 
           explore_source: dwh_geo_summary {
-            column: event_date {}
+            column: event_raw {}
             column: advertiserid {}
             column: campaignid {}
             column: line_item_name {}
@@ -20,6 +20,14 @@ view: geo_daily_summary_pdt {
             column: video_clicks {}
             column: video_activites {}
             column: video_interactions {}
+            column: scene_save {}
+            column: frame_select {}
+            column: object_highlight {}
+            column: object_link {}
+            column: primary_cta {}
+            column: brand_logo_click {}
+            column: event_type {}
+            column: sum_ct {}
             filters: {
               field: dwh_geo_summary.event_date
               value: "6 months"
@@ -28,47 +36,77 @@ view: geo_daily_summary_pdt {
         }
 
         #dimensions
-        dimension: event_date {
-          label: "Geo Summary Event Date"
-          type: date
+        dimension_group: event {
+          type: time
+          timeframes: [
+            raw,
+            date,
+            week,
+            month,
+            quarter,
+            year
+          ]
+          sql: ${TABLE}.event_raw ;;
         }
         dimension: advertiserid {
-          label: "Geo Summary Advertiserid"
+          hidden: yes
         }
         dimension: campaignid {
-          label: "Geo Summary Campaignid"
+          hidden: yes
         }
         dimension: line_item_name {
-          label: "Geo Summary Line Item Name"
         }
         dimension: map_region {
-          label: "Geo Summary Map Region"
           type: string
           map_layer_name: us_states
         }
         dimension: user_mobile_name {
-          label: "Geo Summary User Mobile Name"
+
         }
+
+        dimension: event_type {}
 
         #measures
         measure: impression {
-          label: "Geo Summary Impression"
           description: "When the ad is loaded and starts playback"
           type: sum
         }
         measure: video_clicks {
-          label: "Geo Summary Video Clicks"
           type: sum
         }
         measure: video_activites {
-          label: "Geo Summary Video Activites"
           type: sum
         }
         measure: video_interactions {
-          label: "Geo Summary Video Interactions"
           type: sum
         }
 
+        measure: scene_save {
+          type: sum
+        }
+
+  measure: frame_select {
+    type: sum
+  }
+
+  measure: object_highlight {
+    type: sum
+  }
+
+  measure: object_link {
+    type: sum
+  }
+  measure: primary_cta {
+    type: sum
+  }
+  measure: brand_logo_click {
+    type: sum
+  }
+
+  measure: total_events {
+    type: sum
+    sql: ${TABLE}.sum_ct ;;
+  }
         #rates
         measure: video_interactions_rate {
           type: number
